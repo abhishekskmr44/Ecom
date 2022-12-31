@@ -1,6 +1,10 @@
 import Link from 'next/link';
 import React, { useRef } from 'react'
-import { AiOutlineLeft, AiOutlineMinus, AiOutlinePlus, AiOutlineShopping } from 'react-icons/ai';
+import { AiOutlineLeft, 
+        AiOutlineMinus, 
+        AiOutlinePlus,
+        AiOutlineShopping
+   } from 'react-icons/ai';
 import { useStateContext } from '../context/StateContext';
 import { urlFor } from '../lib/client';
 import {TiDeleteOutline} from 'react-icons/ti'
@@ -8,12 +12,19 @@ import getStripe from '../lib/getStripe'
 
 const Cart = () => {
   const cartRef = useRef();
-  const {setShowCart,cartItems,totalPrice,totalQuantities,toggleCartItemQuantity,onRemove} = useStateContext();
- 
-  const handleCheckOut = async()=> {
-    const stripe = await getStripe();
+  const {setShowCart,
+    cartItems,
+    totalPrice,
+    totalQuantities,
+    toggleCartItemQuantity,
+    onRemove} = useStateContext();
+  
+    const handleCheckOut = async()=> {
+  
+      const stripe = await getStripe();
 
-    const response = await fetch('/api/stripe',{
+
+      const response = await fetch("/api/stripe",{
       method: "POST",
       headers: {
         'Content-Type' : 'application/json',
@@ -40,7 +51,7 @@ const Cart = () => {
           onClick={()=>setShowCart(false)}>
             <AiOutlineLeft/>
             <span className="heading">Your Cart</span>
-            <span className='cart-num-items'>({totalQuantities})</span>
+            <span className='cart-num-items'>({totalQuantities}items)</span>
           </button>
           
           {cartItems.length<1 && (
@@ -77,7 +88,7 @@ const Cart = () => {
                       <span className="minus"
                        onClick={()=>toggleCartItemQuantity(item._id,"dec")}><AiOutlineMinus/></span>
                        <span className="num"
-                       onClick="">{item.quantity}</span>
+                       >{item.quantity}</span>
                        <span className="plus"
                        onClick={()=>toggleCartItemQuantity(item._id,"inc")}><AiOutlinePlus/></span>
                          </p>
